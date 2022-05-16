@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
 import com.test.newsapp.R
 import com.test.newsapp.databinding.FragmentLoginBinding
 import com.test.newsapp.ui.fragments.register.ValidationEvent
@@ -30,6 +32,8 @@ class LoginFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+
         return binding.root
     }
 
@@ -46,6 +50,10 @@ class LoginFragment : Fragment() {
         binding.submitBtn.setOnClickListener {
             viewModel.onEvent(LoginFormEvent.Submit)
         }
+        binding.reginster.setOnClickListener {
+            navigateToRegister()
+        }
+        receiveEvents()
 
     }
 
@@ -59,6 +67,9 @@ class LoginFragment : Fragment() {
                     is ValidationEvent.Error -> {
                         setErrors()
                     }
+                    is ValidationEvent.LoginFailed -> {
+                        Snackbar.make(requireView(), "Login Failed", Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -66,15 +77,18 @@ class LoginFragment : Fragment() {
 
 
     private fun navigateToDashBoard() {
-
+        Navigation.findNavController(requireView())
+            .navigate(R.id.action_loginFragment_to_dashboardActivity)
     }
 
     fun navigateToRegister() {
-
+        Navigation.findNavController(requireView())
+            .navigate(R.id.action_loginFragment_to_registerFragment2)
     }
 
     private fun setErrors() {
         binding.emailLabel.error = viewModel.state.emailError
+        binding.emailLabel.isErrorEnabled = true
         binding.passwordLabel.error = viewModel.state.passwordError
     }
 

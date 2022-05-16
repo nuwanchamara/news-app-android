@@ -22,7 +22,8 @@ class LocalStorageService {
                 Context.MODE_PRIVATE
             )
         val er = sharedPreferences.edit()
-        val users: HashMap<String, User>? = getAllUsers()
+        val users: HashMap<String, User>? = getAllUsers() ?: hashMapOf()
+
         users?.put(user.email, user)
         val json = Gson().toJson(users)
         er.putString("allUsers", json)
@@ -33,7 +34,11 @@ class LocalStorageService {
         val sharedPreferences = NewsApp.appContext.getSharedPreferences(
             PACKAGE, Context.MODE_PRIVATE
         )
-        val json = sharedPreferences.getString("allUsers", null) ?: return null;
+        if (!sharedPreferences.contains("allUsers")) {
+            return null
+        }
+        val json: String? = sharedPreferences.getString("allUsers", null);
+        if (json == null || json == "null") return null
         val type = object : TypeToken<HashMap<String, User>>() {}.type
         val users: HashMap<String, User> = Gson().fromJson(json, type)
         return users

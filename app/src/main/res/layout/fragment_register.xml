@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragments.register.RegisterFragment">
 
 
@@ -23,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="First Name"
+           app:errorEnabled="true"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -38,7 +40,9 @@
             android:id="@+id/lastNameLabel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Last Name">
+            android:hint="Last Name"
+            app:errorEnabled="true"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/lastName"
@@ -51,7 +55,9 @@
             android:id="@+id/emailLabel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Email Name">
+            android:hint="Email Name"
+            app:errorEnabled="true"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
@@ -65,25 +71,33 @@
             android:id="@+id/passwordLabel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Password">
+            android:hint="Password"
+            app:errorEnabled="true"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/retypePasswordLabel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Retype Password">
+            android:hint="Retype Password"
+            app:errorEnabled="true"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/retypePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+
+                />
 
             <Button
                 android:id="@+id/submitBtn"

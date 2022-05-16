@@ -77,6 +77,15 @@ class RegisterViewModel(
 
 
         if (hasError) {
+            state = state.copy(
+                firstNameError = firstNameResult.errorMessage,
+                lastNameError = lastNameResult.errorMessage,
+                emailError = emailResult.errorMessage,
+                passwordError = passwordResult.errorMessage,
+                repeatedPasswordError = retypePasswordResult.errorMessage
+            )
+
+
             viewModelScope.launch {
                 validationEventChannel.send(ValidationEvent.Error)
             }
@@ -88,8 +97,15 @@ class RegisterViewModel(
             email = state.email,
             password = state.password
         )
-        userService.register(user)
+        val isregistrationSuccess = userService.register(user)
+
+
+
         viewModelScope.launch {
+            if (!isregistrationSuccess) {
+                validationEventChannel.send(ValidationEvent.RegistrationFailed)
+                return@launch
+            }
             validationEventChannel.send(ValidationEvent.Success)
         }
 
@@ -102,4 +118,6 @@ class RegisterViewModel(
 sealed class ValidationEvent {
     object Success : ValidationEvent()
     object Error : ValidationEvent()
+    object LoginFailed : ValidationEvent()
+    object RegistrationFailed : ValidationEvent()
 }

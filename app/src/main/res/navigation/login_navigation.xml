@@ -21,7 +21,11 @@
         android:id="@+id/registerFragment2"
         android:name="com.test.newsapp.ui.fragments.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment2_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <activity
         android:id="@+id/dashboardActivity"
         android:name="com.test.newsapp.ui.activities.dashboard.DashboardActivity"

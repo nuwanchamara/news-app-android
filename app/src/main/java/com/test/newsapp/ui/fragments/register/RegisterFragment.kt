@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
+import com.test.newsapp.R
 import com.test.newsapp.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -70,10 +73,22 @@ class RegisterFragment : Fragment() {
                 when (event) {
                     is ValidationEvent.Success -> {
                         // goto Login
+                        Snackbar.make(
+                            requireView(),
+                            "Registration Success",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         navigateToLogin()
                     }
                     is ValidationEvent.Error -> {
                         setErrors()
+                    }
+                    is ValidationEvent.RegistrationFailed -> {
+                        Snackbar.make(
+                            requireView(),
+                            "Registration Failed",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -82,12 +97,13 @@ class RegisterFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
-
+        Navigation.findNavController(requireView())
+            .popBackStack()
     }
 
     private fun setErrors() {
         binding.firstNameLabel.error = viewModel.state.firstNameError
-        binding.lastNameLabel.error = viewModel.state.LastNameError
+        binding.lastNameLabel.error = viewModel.state.lastNameError
         binding.emailLabel.error = viewModel.state.emailError
         binding.passwordLabel.error = viewModel.state.passwordError
         binding.retypePasswordLabel.error = viewModel.state.repeatedPassword

@@ -8,7 +8,7 @@ class Article(
     @SerializedName("source")
     var source: Source = Source(),
     @SerializedName("author")
-    var author: String = "",
+    var author: String? = "",
     @SerializedName("title")
     var title: String = "",
     @SerializedName("description")

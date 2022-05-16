@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.test.newsapp.services.UserService
 import com.test.newsapp.ui.fragments.register.ValidationEvent
 import com.test.newsapp.usecases.ValidateEmail
 import com.test.newsapp.usecases.ValidatePassword
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private var validateEmail: ValidateEmail = ValidateEmail(),
-    private var validatePassword: ValidatePassword = ValidatePassword()
+    private var validatePassword: ValidatePassword = ValidatePassword(),
+    val userService: UserService = UserService.instance
 ) : ViewModel() {
 
     var state by mutableStateOf(LoginFormState())
@@ -50,9 +52,22 @@ class LoginViewModel(
         }
 
         if (hasError) {
+            state = state.copy(
+                emailError = emailResult.errorMessage ?: "",
+                passwordError = passwordResult.errorMessage
+            )
+
             viewModelScope.launch {
                 validationEventChannel.send(ValidationEvent.Error)
             }
+            return
+        }
+        val isLoginSuccess = userService.login(username = state.email, password = state.password)
+        if (!isLoginSuccess) {
+            viewModelScope.launch {
+                validationEventChannel.send(ValidationEvent.LoginFailed)
+            }
+
             return
         }
 

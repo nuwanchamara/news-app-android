@@ -61,9 +61,9 @@ class Net(
     }
 
     object URL {
-        var DOMAIN = "https://app.digitalinvea.com/api"
+        var DOMAIN = "https://newsapi.org/v2/"
         var SERVER = "$DOMAIN/"
-         var HOT_NEWS= SERVER+""
+         var TOP_HEADLINES= SERVER+"top-headlines"
          var REGISTER= SERVER+""
          var LOGIN= SERVER+""
          var SEARCH_NEWS= SERVER+""
